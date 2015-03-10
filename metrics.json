@@ -1,93 +1,165 @@
 {
-  "result": [
-  {
-    "name": "RABBITMQ_CONNECTIONS",
-    "displayName": "RabbitMQ Connection Count",
-    "description": "Number of current connections being handled by RabbitMQ.",
-    "unit": "number",
-    "displayNameShort": "RabbitMQ Connections",
-    "defaultAggregate": "count"
-  },
-  {
-    "name": "RABBITMQ_CONNECTIONS_NOTRUNNING",
-    "displayName": "RabbitMQ Non-Running Connection Count",
-    "description": "Number of current connections in a state other than running.",
-    "unit": "number",
-    "displayNameShort": "RabbitMQ XConnections",
-    "defaultAggregate": "count"
-  },
-  {
-    "name": "RABBITMQ_OCTETS_RECEIVED",
-    "displayName": "RabbitMQ Bytes Received",
-    "description": "Number bytes received.",
-    "unit": "number",
-    "displayNameShort": "RabbitMQ Bytes In",
-    "defaultAggregate": "count"
-  },
-  {
-    "name": "RABBITMQ_OCTETS_SENT",
-    "displayName": "RabbitMQ Bytes Sent",
-    "description": "Number bytes sent.",
-    "unit": "number",
-    "displayNameShort": "RabbitMQ Bytes Out",
-    "defaultAggregate": "count"
-  },
-  {
-    "name": "RABBITMQ_MESSAGES",
-    "displayName": "RabbitMQ Queued Message Count",
-    "description": "Number of messages currently being handled by RabbitMQ.",
-    "unit": "number",
-    "displayNameShort": "RabbitMQ Messages",
-    "defaultAggregate": "count"
-  },
-  {
-    "name": "RABBITMQ_MESSAGES_READY",
-    "displayName": "RabbitMQ Ready Message Count",
-    "description": "Number of messages ready for delivery.",
-    "unit": "number",
-    "displayNameShort": "RabbitMQ Msg Ready",
-    "defaultAggregate": "count"
-  },
-  {
-    "name": "RABBITMQ_MESSAGES_UNACKNOWLEDGED",
-    "displayName": "RabbitMQ Unacknowledged Message Count",
-    "description": "Number of sent messages awaiting acknowledgement.",
-    "unit": "number",
-    "displayNameShort": "RabbitMQ Msg NoAck",
-    "defaultAggregate": "count"
-  },
-  {
-    "name": "RABBITMQ_PROC_USED",
-    "displayName": "RabbitMQ Processes Count",
-    "description": "Number of processes used by the RabbitMQ server.",
-    "unit": "number",
-    "displayNameShort": "RabbitMQ Processes",
-    "defaultAggregate": "count"
-  },
-  {
-    "name": "RABBITMQ_MEM_USED",
-    "displayName": "RabbitMQ Memory Usage",
-    "description": "Number of bytes of memory used by the RabbitMQ server.",
-    "unit": "number",
-    "displayNameShort": "RabbitMQ Memory",
-    "defaultAggregate": "count"
-  },
-  {
-    "name": "RABBITMQ_FD_USED",
-    "displayName": "RabbitMQ File Descriptor Usage",
-    "description": "Number of file descriptors used by the RabbitMQ server.",
-    "unit": "number",
-    "displayNameShort": "RabbitMQ FDs",
-    "defaultAggregate": "count"
-  },
-  {
-    "name": "RABBITMQ_SOCKETS_USED",
-    "displayName": "RabbitMQ Socket Usage",
-    "description": "Number of sockets used by the RabbitMQ server.",
-    "unit": "number",
-    "displayNameShort": "RabbitMQ Sockets",
-    "defaultAggregate": "count"
-  }
-  ]
+    "result": [
+        {
+            "description": "RabbitMQ - Disk Free",
+            "displayName": "RabbitMQ - Disk Free",
+            "displayNameShort": "RMQ - Disk Free",
+            "name": "RABBITMQ_DISK_FREE",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Memory Used",
+            "displayName": "RabbitMQ - Memory Used",
+            "displayNameShort": "RMQ - Memory Used",
+            "name": "RABBITMQ_MEM_USED",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Messages Delivered",
+            "displayName": "RabbitMQ - Messages Delivered",
+            "displayNameShort": "RMQ - Msg Del",
+            "name": "RABBITMQ_MESSAGE_STATS_DELIVER",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Messages Delivered Rate",
+            "displayName": "RabbitMQ - Messages Delivered Rate",
+            "displayNameShort": "RMQ - Msg Del Rate",
+            "name": "RABBITMQ_MESSAGE_STATS_DELIVER_DETAILS_RATE",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Messages Delivered Get",
+            "displayName": "RabbitMQ - Messages Delivered Get",
+            "displayNameShort": "RMQ - Msg Del Get",
+            "name": "RABBITMQ_MESSAGE_STATS_DELIVER_GET",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Messages Delivered Get Rate",
+            "displayName": "RabbitMQ - Messages Delivered Get Rate",
+            "displayNameShort": "RMQ - Msg Del Get Rt",
+            "name": "RABBITMQ_MESSAGE_STATS_DELIVER_GET_DETAILS_RATE",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Messages Delivered No Ack",
+            "displayName": "RabbitMQ - Messages Delivered No Ack",
+            "displayNameShort": "RMQ - Msg Del NoAck",
+            "name": "RABBITMQ_MESSAGE_STATS_DELIVER_NO_ACK",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Messages Delivered No Ack Rate",
+            "displayName": "RabbitMQ - Messages Delivered No Ack Rate",
+            "displayNameShort": "RMQ - Msg Del NoAck R",
+            "name": "RABBITMQ_MESSAGE_STATS_DELIVER_NO_ACK_DETAILS_RATE",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Messages Published",
+            "displayName": "RabbitMQ - Messages Published",
+            "displayNameShort": "RMQ - Msg Pub",
+            "name": "RABBITMQ_MESSAGE_STATS_PUBLISH",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Messages Published Rate",
+            "displayName": "RabbitMQ - Messages Published Rate",
+            "displayNameShort": "RMQ - Msg Pub Rt",
+            "name": "RABBITMQ_MESSAGE_STATS_PUBLISH_DETAILS_RATE",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Messages Redelivered",
+            "displayName": "RabbitMQ - Messages Redelivered",
+            "displayNameShort": "RMQ - Msg Redel",
+            "name": "RABBITMQ_MESSAGE_STATS_REDELIVER",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Messages Redelivered Rate",
+            "displayName": "RabbitMQ - Messages Redelivered Rate",
+            "displayNameShort": "RMQ - Msg Redel Rt",
+            "name": "RABBITMQ_MESSAGE_STATS_REDELIVER_DETAILS_RATE",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Total Channels",
+            "displayName": "RabbitMQ - Total Channels",
+            "displayNameShort": "RMQ - Tot Channels",
+            "name": "RABBITMQ_OBJECT_TOTALS_CHANNELS",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Total Connections",
+            "displayName": "RabbitMQ - Total Connections",
+            "displayNameShort": "RMQ - Tot Connect",
+            "name": "RABBITMQ_OBJECT_TOTALS_CONNECTIONS",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Total Consumers",
+            "displayName": "RabbitMQ - Total Consumers",
+            "displayNameShort": "RMQ - Tot Consumers",
+            "name": "RABBITMQ_OBJECT_TOTALS_CONSUMERS",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Total Exchanges",
+            "displayName": "RabbitMQ - Total Exchanges",
+            "displayNameShort": "RMQ - Tot Exchanges",
+            "name": "RABBITMQ_OBJECT_TOTALS_EXCHANGES",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Total Queues",
+            "displayName": "RabbitMQ - Total Queues",
+            "displayNameShort": "RMQ - Total Queues",
+            "name": "RABBITMQ_OBJECT_TOTALS_QUEUES",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Queue Total Messages",
+            "displayName": "RabbitMQ - Queue Total Messages",
+            "displayNameShort": "RMQ - Q Tot Msg",
+            "name": "RABBITMQ_QUEUE_TOTALS_MESSAGES",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Queue Total Messages Rate",
+            "displayName": "RabbitMQ - Queue Total Messages Rate",
+            "displayNameShort": "RMQ - Q Tot Msg Rt",
+            "name": "RABBITMQ_QUEUE_TOTALS_MESSAGES_DETAILS_RATE",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Queue Total Messages Unacknowledged",
+            "displayName": "RabbitMQ - Queue Total Messages Unacknowledged",
+            "displayNameShort": "RMQ - Q Tot Msg UAck",
+            "name": "RABBITMQ_QUEUE_TOTALS_MESSAGES_UNACKNOWLEDGED",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Queue Total Messages Unacknowledged Details Rate",
+            "displayName": "RabbitMQ - Queue Total Messages Unacknowledged Details Rate",
+            "displayNameShort": "RMQ - Q Tot Msg Uk R",
+            "name": "RABBITMQ_QUEUE_TOTALS_MESSAGES_UNACKNOWLEDGED_DETAILS_RATE",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Queue Total Messages Ready",
+            "displayName": "RabbitMQ - Queue Total Messages Ready",
+            "displayNameShort": "RMQ - Q Tot Msg Ready",
+            "name": "RABBITMQ_QUEUE_TOTALS_MESSAGES_READY",
+            "unit": "number"
+        },
+        {
+            "description": "RabbitMQ - Queue Total Messages Ready Rate",
+            "displayName": "RabbitMQ - Queue Total Messages Ready Rate",
+            "displayNameShort": "RMQ - Q Tot Msg R Rt",
+            "name": "RABBITMQ_QUEUE_TOTALS_MESSAGES_READY_DETAILS_RATE",
+            "unit": "number"
+        }
+    ]
 }
-
