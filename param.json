@@ -1,0 +1,8 @@
+{
+    "pollInterval":1000,
+    "rabbitMQHost":"127.0.0.1",
+    "rabbitMQPort":15672,
+    "rabbitMQUser":"guest",
+    "rabbitMQPass":"guest"
+}
+

@@ -1,0 +1,93 @@
+{
+  "result": [
+  {
+    "name": "RABBITMQ_CONNECTIONS",
+    "displayName": "RabbitMQ Connection Count",
+    "description": "Number of current connections being handled by RabbitMQ.",
+    "unit": "number",
+    "displayNameShort": "RabbitMQ Connections",
+    "defaultAggregate": "count"
+  },
+  {
+    "name": "RABBITMQ_CONNECTIONS_NOTRUNNING",
+    "displayName": "RabbitMQ Non-Running Connection Count",
+    "description": "Number of current connections in a state other than running.",
+    "unit": "number",
+    "displayNameShort": "RabbitMQ XConnections",
+    "defaultAggregate": "count"
+  },
+  {
+    "name": "RABBITMQ_OCTETS_RECEIVED",
+    "displayName": "RabbitMQ Bytes Received",
+    "description": "Number bytes received.",
+    "unit": "number",
+    "displayNameShort": "RabbitMQ Bytes In",
+    "defaultAggregate": "count"
+  },
+  {
+    "name": "RABBITMQ_OCTETS_SENT",
+    "displayName": "RabbitMQ Bytes Sent",
+    "description": "Number bytes sent.",
+    "unit": "number",
+    "displayNameShort": "RabbitMQ Bytes Out",
+    "defaultAggregate": "count"
+  },
+  {
+    "name": "RABBITMQ_MESSAGES",
+    "displayName": "RabbitMQ Queued Message Count",
+    "description": "Number of messages currently being handled by RabbitMQ.",
+    "unit": "number",
+    "displayNameShort": "RabbitMQ Messages",
+    "defaultAggregate": "count"
+  },
+  {
+    "name": "RABBITMQ_MESSAGES_READY",
+    "displayName": "RabbitMQ Ready Message Count",
+    "description": "Number of messages ready for delivery.",
+    "unit": "number",
+    "displayNameShort": "RabbitMQ Msg Ready",
+    "defaultAggregate": "count"
+  },
+  {
+    "name": "RABBITMQ_MESSAGES_UNACKNOWLEDGED",
+    "displayName": "RabbitMQ Unacknowledged Message Count",
+    "description": "Number of sent messages awaiting acknowledgement.",
+    "unit": "number",
+    "displayNameShort": "RabbitMQ Msg NoAck",
+    "defaultAggregate": "count"
+  },
+  {
+    "name": "RABBITMQ_PROC_USED",
+    "displayName": "RabbitMQ Processes Count",
+    "description": "Number of processes used by the RabbitMQ server.",
+    "unit": "number",
+    "displayNameShort": "RabbitMQ Processes",
+    "defaultAggregate": "count"
+  },
+  {
+    "name": "RABBITMQ_MEM_USED",
+    "displayName": "RabbitMQ Memory Usage",
+    "description": "Number of bytes of memory used by the RabbitMQ server.",
+    "unit": "number",
+    "displayNameShort": "RabbitMQ Memory",
+    "defaultAggregate": "count"
+  },
+  {
+    "name": "RABBITMQ_FD_USED",
+    "displayName": "RabbitMQ File Descriptor Usage",
+    "description": "Number of file descriptors used by the RabbitMQ server.",
+    "unit": "number",
+    "displayNameShort": "RabbitMQ FDs",
+    "defaultAggregate": "count"
+  },
+  {
+    "name": "RABBITMQ_SOCKETS_USED",
+    "displayName": "RabbitMQ Socket Usage",
+    "description": "Number of sockets used by the RabbitMQ server.",
+    "unit": "number",
+    "displayNameShort": "RabbitMQ Sockets",
+    "defaultAggregate": "count"
+  }
+  ]
+}
+

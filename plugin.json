@@ -1,0 +1,61 @@
+{
+"description": "Plugin for the RabbitMQ message broker",
+"icon" : "icon.png",
+"command": "boundary-meter index.lua",
+"metrics" : [
+    "RABBITMQ_CONNECTIONS",
+    "RABBITMQ_CONNECTIONS_NOTRUNNING",
+    "RABBITMQ_OCTETS_RECEIVED",
+    "RABBITMQ_OCTETS_SENT",
+    "RABBITMQ_MESSAGES",
+    "RABBITMQ_MESSAGES_READY",
+    "RABBITMQ_MESSAGES_UNACKNOWLEDGED",
+    "RABBITMQ_PROC_USED",
+    "RABBITMQ_MEM_USED",
+    "RABBITMQ_FD_USED",
+    "RABBITMQ_SOCKETS_USED"
+],
+"postExtract" : "",
+"paramSchema": [
+{
+"title": "RabbitMQ host address",
+"name": "rabbitMQHost",
+"description": "Hostname of the RabbitMQ instance",
+"type": "string",
+"default": "127.0.0.1",
+"required": false
+},
+{
+"title": "RabbitMQ status port",
+"name": "rabbitMQPort",
+"description": "Port number of the RabbitMQ management server",
+"type": "string",
+"default": 15672,
+"required": false
+},
+{
+"title": "RabbitMQ user",
+"name": "rabbitMQUser",
+"description": "User name for RabbitMQ management server",
+"type": "string",
+"default": "guest",
+"required": false
+},
+{
+"title": "RabbitMQ password",
+"name": "rabbitMQPass",
+"description": "Password for RabbitMQ management server",
+"type": "string",
+"default": "guest",
+"required": false
+},
+{
+"title": "Poll Time (msec)",
+"name": "pollInterval",
+"description": "The Poll Interval to call the command. Defaults 5 seconds",
+"type": "string",
+"default": 5000,
+"required": false
+}
+]
+}
