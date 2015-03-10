@@ -4,7 +4,7 @@ local http = require("http")
 local json = require("json")
 local fs = require("fs")
 
-local nodeName, authKey, previous, current, conversions, requests, param
+local authKey, stats, conversions, requests, param
 
 -- base64
 -- encoding username and password for basic auth
@@ -46,53 +46,20 @@ function tail(a)
     return t
 end
 
--- fnFactory returns a function(current, previous) that when called
+-- fnFactory returns a function(stats) that when called
 -- will output the metric string ready for printing
 --      name - name of metric
---      func - type of metric (diff, cur or ratio)
 --      format - printf type format specifier for the result eg "%d"
---      params - parameters specific to build the required function
-function fnFactory(name, func, format, params)
+function fnFactory(name, format, attrs)
     local mask = "RABBITMQ_" .. name .. " " .. format .. " %s\n"
-    local str = function(v) return string.format(mask, v, nodeName) end
-
-    return ({
-        -- diff calculates the difference between a current and previous values
-        diff = function (attrs, scale)
-            return function (c, p)
-                local v = lookup(c, attrs)
-                local w = lookup(p, attrs)
-                if (type(v) == "number" and type(w) == "number") then
-                    return str((scale or 1) * (v - w))
-                else
-                    return ""
-                end
-            end
-        end,
-        -- cur returns a current value
-        cur = function (attrs, scale)
-            return function (c)
-                local v = lookup(c, attrs)
-                if (type(v) == "number") then
-                    return str((scale or 1) * v)
-                else
-                    return ""
-                end
-            end
-        end,
-        -- ratio takes values a and b from the current data and returns a/b
-        ratio = function (attrs1, attrs2, scale)
-            return function (c)
-                local v = lookup(c, attrs1)
-                local w = lookup(c, attrs2)
-                if (type(v) == "number" and type(w) == "number") then
-                    return str((scale or 1) * v / w)
-                else
-                    return ""
-                end
-            end
+    return function (c)
+        local v = lookup(c, attrs)
+        if (type(v) == "number") then
+            return string.format(mask, v, c.name)
+        else
+            return string.format(mask, 0, c.name)
         end
-    })[func](table.unpack(params))
+    end
 end
 
 -- processRequest takes a table of requests processes them in order
@@ -110,7 +77,9 @@ function processRequest(reqs, callback)
             path = "/api/" .. r.name
         }, function (res)
             res:on("end", function ()
-                current[r.name] = r.handler(json.parse(data))
+                for n, v in pairs(r.handler(json.parse(data))) do
+                    stats[n] = v
+                end
                 processRequest(tail(reqs), callback)
             end)
             res:on("data", function (chunk)
@@ -124,12 +93,11 @@ end
 -- poll
 -- function to poll tre server and print results
 function poll()
-    previous = current
-    current = {}
+    stats = {}
     processRequest(requests, function()
         local t = {}
         for i, f in ipairs(conversions) do
-            table.insert(t, f(current, previous))
+            table.insert(t, f(stats))
         end
         fs.writeSync(1, -1, table.concat(t))
     end)
@@ -149,41 +117,44 @@ param = boundary.param or {
 -- build a table of functions to convert metrics into strings
 conversions = {}
 for i, v in ipairs({
-    {"CONNECTIONS", "cur", "%d", {{"connections", "total"}}},
-    {"CONNECTIONS_NOTRUNNING", "cur", "%d", {{"connections", "notrunning"}}},
-    {"OCTETS_RECEIVED", "diff", "%d", {{"connections", "recv"}}},
-    {"OCTETS_SENT", "diff", "%d", {{"connections", "send"}}},
-    {"MESSAGES", "cur", "%d", {{"overview", "messages"}}},
-    {"MESSAGES_READY", "cur", "%d", {{"overview", "messages_ready"}}},
-    {"MESSAGES_UNACKNOWLEDGED", "cur", "%d", {{"overview", "messages_unacknowledged"}}},
-    {"PROC_USED", "cur", "%d", {{"nodes", "proc_used"}}},
-    {"MEM_USED", "cur", "%d", {{"nodes", "mem_used"}}},
-    {"FD_USED", "cur", "%d", {{"nodes", "fd_used"}}},
-    {"SOCKETS_USED", "cur", "%d", {{"nodes", "sockets_used"}}}
+    {"OBJECT_TOTALS_QUEUES", "%d", {"object_totals", "queues"}},
+    {"OBJECT_TOTALS_CHANNELS", "%d", {"object_totals", "channels"}},
+    {"OBJECT_TOTALS_EXCHANGES", "%d", {"object_totals", "exchanges"}},
+    {"OBJECT_TOTALS_CONSUMERS", "%d", {"object_totals", "consumers"}},
+    {"OBJECT_TOTALS_CONNECTIONS", "%d", {"object_totals", "connections"}},
+    {"MESSAGE_STATS_DELIVER", "%d", {"message_stats", "deliver"}},
+    {"MESSAGE_STATS_DELIVER_DETAILS_RATE", "%d", {"message_stats", "deliver_details", "rate"}},
+    {"MESSAGE_STATS_DELIVER_NO_ACK", "%d", {"message_stats", "deliver_no_ack"}},
+    {"MESSAGE_STATS_DELIVER_NO_ACK_DETAILS_RATE", "%f", {"message_stats", "deliver_no_ack_details", "rate"}},
+    {"MESSAGE_STATS_DELIVER_GET", "%d", {"message_stats", "deliver_get"}},
+    {"MESSAGE_STATS_DELIVER_GET_DETAILS_RATE", "%f", {"message_stats", "deliver_get_details", "rate"}},
+    {"MESSAGE_STATS_REDELIVER", "%d", {"message_stats", "redeliver"}},
+    {"MESSAGE_STATS_REDELIVER_DETAILS_RATE", "%f", {"message_stats", "redeliver_details", "rate"}},
+    {"MESSAGE_STATS_PUBLISH", "%d", {"message_stats", "publish"}},
+    {"MESSAGE_STATS_PUBLISH_DETAILS_RATE", "%f", {"message_stats", "publish_details", "rate"}},
+    {"QUEUE_TOTALS_MESSAGES", "%d", {"queue_totals", "messages"}},
+    {"QUEUE_TOTALS_MESSAGES_DETAILS_RATE", "%f", {"queue_totals", "messages_details", "rate"}},
+    {"QUEUE_TOTALS_MESSAGES_READY", "%d", {"queue_totals", "messages_ready"}},
+    {"QUEUE_TOTALS_MESSAGES_READY_DETAILS_RATE", "%f", {"queue_totals", "messages_ready_details", "rate"}},
+    {"QUEUE_TOTALS_MESSAGES_UNACKNOWLEDGED", "%d", {"queue_totals", "messages_unacknowledged"}},
+    {"QUEUE_TOTALS_MESSAGES_UNACKNOWLEDGED_DETAILS_RATE", "%f", {"queue_totals", "messages_unacknowledged_details", "rate"}},
+    {"MEM_USED", "%d", {"mem_used"}},
+    {"DISK_FREE", "%d", {"disk_free"}}
 }) do
     table.insert(conversions, fnFactory(table.unpack(v)))
 end
 
 -- build table of requests and associated handler function
 requests = {
-    { name = "connections", handler = function(json)
-        local stats = {total = 0, notrunning = 0, recv = 0, send = 0 }
-        for i, v in ipairs(json) do
-            stats.total = stats.total + 1
-            if (v.state ~= "running") then
-                stats.notrunning = stats.notrunning + 1
-            end
-            stats.recv = stats.recv + v.recv_oct
-            stats.send = stats.send + v.send_oct
-        end
-        return stats
-    end },
     { name = "overview", handler = function (json)
-        return json.queue_totals
+        return { object_totals = json.object_totals,
+                 message_stats = json.message_stats,
+                 queue_totals  = json.queue_totals }
     end },
     { name = "nodes", handler = function (json)
-        nodeName = json[1].name     -- set nodeName for printing
-        return json[1]
+        return { name = json[1].name,
+                 mem_used = json[1].mem_used,
+                 disk_free = json[1].disk_free }
     end }
 }
 
